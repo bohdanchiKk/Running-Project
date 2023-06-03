@@ -12,4 +12,7 @@ public interface ClubService {
     ClubDto findById(long clubId);
 
     void updateClub(ClubDto club);
+
+    void delete(Long clubId);
+    List<ClubDto> searchClubs(String query);
 }
