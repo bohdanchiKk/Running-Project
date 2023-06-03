@@ -28,6 +28,12 @@ public class ClubController {
         model.addAttribute("clubs",clubs);
         return "clubs-list";
     }
+    @GetMapping("/clubs/{clubId}")
+    public String clubDetail(@PathVariable("clubId") Long clubId, Model model){
+        ClubDto clubDto = clubService.findById(clubId);
+        model.addAttribute("club",clubDto);
+        return "clubs-detail";
+    }
     @GetMapping("/clubs/new")
     public String createClubForm(Model model){
         Club club = new Club();
