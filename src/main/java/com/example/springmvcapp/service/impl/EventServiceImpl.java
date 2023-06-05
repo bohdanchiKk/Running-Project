@@ -1,12 +1,20 @@
 package com.example.springmvcapp.service.impl;
 
+import com.example.springmvcapp.dto.ClubDto;
 import com.example.springmvcapp.dto.EventDto;
 import com.example.springmvcapp.models.Club;
 import com.example.springmvcapp.models.Event;
 import com.example.springmvcapp.repository.ClubRepository;
 import com.example.springmvcapp.repository.EventRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springmvcapp.service.EventService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.example.springmvcapp.mapper.ClubMapper.mapToClub;
+import static com.example.springmvcapp.mapper.EventMapper.mapToEventDto;
+import static com.example.springmvcapp.mapper.EventMapper.maptoEvent;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -24,17 +32,32 @@ public class EventServiceImpl implements EventService {
         eventRepository.save(event);
     }
 
-    private Event maptoEvent(EventDto eventDto) {
-        return Event.builder()
-                .id(eventDto.getId())
-                .name(eventDto.getName())
-                .startTime(eventDto.getStartTime())
-                .endTime(eventDto.getEndTime())
-                .photoUrl(eventDto.getPhotoUrl())
-                .type(eventDto.getType())
-                .createdOn(eventDto.getCreatedOn())
-                .updatedOn(eventDto.getUpdatedOn())
-                .build();
+    @Override
+    public List<EventDto> findAllEvents() {
+        List<Event> events = eventRepository.findAll();
+        return events.stream().map(event -> mapToEventDto(event)).collect(Collectors.toList());
+    }
 
+    @Override
+    public EventDto findByEventId(Long eventId) {
+        Event event = eventRepository.findById(eventId).get();
+        return mapToEventDto(event);
+    }
+
+    @Override
+    public void delete(Long eventId) {
+        eventRepository.deleteById(eventId);
+    }
+
+    @Override
+    public void updateEvent(EventDto eventDto) {
+        Event event = maptoEvent(eventDto);
+            eventRepository.save(event);
+    }
+
+    @Override
+    public EventDto findById(Long eventId) {
+        Event event = eventRepository.findById(eventId).get();
+        return mapToEventDto(event);
     }
 }
