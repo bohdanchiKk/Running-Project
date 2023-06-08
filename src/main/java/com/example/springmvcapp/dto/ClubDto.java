@@ -1,6 +1,7 @@
 package com.example.springmvcapp.dto;
 
 import com.example.springmvcapp.models.Event;
+import com.example.springmvcapp.models.UserEntity;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,5 @@ public class ClubDto {
     private LocalDateTime createdOn;
     private LocalDateTime updatedOn;
     private List<EventDto> events;
+    private UserEntity createdBy;
 }
